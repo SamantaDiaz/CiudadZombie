@@ -32,9 +32,23 @@ var Dibujante = {
 
   /* Dibuja un rectangulo del color pasado por paramentro en la posicion x, y
    con ancho y alto*/
-  dibujarRectangulo: function (color, x, y, ancho, alto) {
-    var ctx = this.canvas.getContext('2d');
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, ancho, alto);
+  dibujarRectangulo: function (color, x, y, ancho, alto, ruta) {
+    if(ruta) {
+      this.dibujarImagen(ruta, x, y, ancho, alto);
+    } else {
+      var ctx = this.canvas.getContext('2d');
+      ctx.fillStyle = color;
+      ctx.fillRect(x, y, ancho, alto);
+    
+    }
+  },
+
+ // Borra todas las entidades del mapa
+  borrarFondo: function() {
+    Juego.enemigos = [];
+    Juego.obstaculosCarretera = [];
+    this.jugador.sprite = "empty.png";
+    Jugador.mover = function () {};
+    this.jugador.y = 550;
   },
 }

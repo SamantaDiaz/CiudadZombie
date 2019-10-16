@@ -2,11 +2,7 @@
 existentes.
 Le dará ordenes al Dibujante para que dibuje entidades en la pantalla. Cargara
 el mapa, chequeara colisiones entre los objetos y actualizara sus movimientos
-y ataques. Gran parte de su implementacion esta hecha, pero hay espacios con el
-texto COMPLETAR que deben completarse según lo indique la consigna.
-
-El objeto Juego contiene mucho código. Tomate tu tiempo para leerlo tranquilo
-y entender que es lo que hace en cada una de sus partes. */
+y ataques.*/
 
 var Juego = {
   // Aca se configura el tamanio del canvas del juego
@@ -18,8 +14,6 @@ var Juego = {
   ganador: false,
 
   obstaculosCarretera: [
-    /*Aca se van a agregar los obstaculos visibles. Tenemos una valla horizontal
-    de ejemplo, pero podras agregar muchos mas. */
     //Vallas
     new Obstaculo('imagenes/valla_horizontal.png', 70, 430, 30, 30, 1),
     new Obstaculo('imagenes/valla_horizontal.png', 100, 430, 30, 30, 1),
@@ -33,16 +27,14 @@ var Juego = {
     //Autos
     new Obstaculo('imagenes/auto_verde_abajo.png', 180, 230, 15, 30, 2),
     new Obstaculo('imagenes/auto_verde_abajo.png', 860, 400, 15, 30, 2),
-    new Obstaculo('imagenes/auto_verde_derecha.png', 400, 480, 30, 15, 2),
+    new Obstaculo('imagenes/taxi-two.png', 400, 480, 35, 20, 2),
     //Baches
     new Obstaculo('imagenes/bache.png', 170, 290, 30, 30, 1),
     new Obstaculo('imagenes/bache.png', 290, 480, 30, 30, 1),
     new Obstaculo('imagenes/bache.png', 510, 130, 30, 30, 1),
     new Obstaculo('imagenes/bache.png', 810, 430, 30, 30, 1),
   ],
-  /* Estos son los bordes con los que se puede chocar, por ejemplo, la vereda.
-   Ya estan ubicados en sus lugares correspondientes. Ya aparecen en el mapa, ya
-   que son invisibles. No tenes que preocuparte por ellos.*/
+  /* Estos son los bordes con los que se puede chocar, por ejemplo, la vereda.*/
   bordes: [
     // // Bordes
     new Obstaculo('', 0, 5, 961, 18, 0),
@@ -62,31 +54,31 @@ var Juego = {
   // Los enemigos se agregaran en este arreglo.
   enemigos: [
     //Zombies caminantes
-    new ZombieCaminante('imagenes/zombie1.png', 150, 250, 20, 20, 1, {
+    new ZombieCaminante('imagenes/zombie-animado.gif', 150, 250, 25, 25, 1, {
       desdeX: 100,
       hastaX: 169,
       desdeY: 200,
       hastaY: 300
     }),
-    new ZombieCaminante('imagenes/zombie1.png', 290, 400, 20, 20, 1, {
+    new ZombieCaminante('imagenes/zombie-animado.gif', 290, 400, 25, 25, 1, {
       desdeX: 250,
       hastaX: 310,
       desdeY: 400,
       hastaY: 480
     }),
-    new ZombieCaminante('imagenes/zombie1.png', 350, 250, 20, 20, 1, {
+    new ZombieCaminante('imagenes/zombie-animado.gif', 350, 250, 25, 25, 1, {
       desdeX: 300,
       hastaX: 400,
       desdeY: 200,
       hastaY: 250
     }),
-    new ZombieCaminante('imagenes/zombie1.png', 450, 100, 20, 20, 1, {
+    new ZombieCaminante('imagenes/zombie-animado.gif', 450, 100, 25, 25, 1, {
       desdeX: 400,
       hastaX: 500,
       desdeY: 50,
       hastaY: 150
     }),
-    new ZombieCaminante('imagenes/zombie1.png', 800, 400, 20, 20, 1, {
+    new ZombieCaminante('imagenes/zombie-animado.gif', 800, 400, 25, 25, 1, {
       desdeX: 760,
       hastaX: 860,
       desdeY: 350,
@@ -132,12 +124,15 @@ Juego.iniciarRecursos = function () {
     'imagenes/zombie2.png',
     'imagenes/zombie3.png',
     'imagenes/zombie4.png',
+    'imagenes/zombie-animado.gif',
     'imagenes/auto_rojo_abajo.png',
     'imagenes/auto_rojo_arriba.png',
     'imagenes/auto_rojo_derecha.png',
     'imagenes/auto_rojo_izquierda.png',
     'imagenes/auto_verde_abajo.png',
-    'imagenes/auto_verde_derecha.png'
+    'imagenes/auto_verde_derecha.png',
+    'imagenes/taxi-two.png',
+    'imagenes/Meta.jpeg',
   ]);
   Resources.onReady(this.comenzar.bind(Juego));
 };
@@ -194,8 +189,6 @@ Juego.capturarMovimiento = function (tecla) {
   // Si se puede mover hacia esa posicion hay que hacer efectivo este movimiento
   if (this.chequearColisiones(movX + this.jugador.x, movY + this.jugador.y)) {
 
-    /* Aca tiene que estar la logica para mover al jugador invocando alguno
-    de sus metodos  */
     this.jugador.mover(tecla, movX, movY);
   }
 };
@@ -207,11 +200,7 @@ Juego.dibujar = function () {
   this.dibujarFondo();
 
 
-  /* Aca hay que agregar la logica para poder dibujar al jugador principal
-  utilizando al dibujante y los metodos que nos brinda.
-  "Dibujante dibuja al jugador" */
-
-  /* Completar */
+  // Se dibuja al jugador principal llamando a algún método de dibujante
   Dibujante.dibujarEntidad(Jugador);
 
   // Se recorren los obstaculos de la carretera pintandolos
@@ -232,15 +221,13 @@ Juego.dibujar = function () {
     Dibujante.dibujarRectangulo('red', x, 0, tamanio, 8);
   }
 
-  this.llegada = Dibujante.dibujarRectangulo("#8D1E06 ", 759, 514, 128, 50);
+  this.llegada = Dibujante.dibujarRectangulo("#8D1E06", 759, 514, 128, 50, 'imagenes/Meta.jpeg');
 
 };
 
 
 
-/* Recorre los enemigos haciendo que se muevan. De la misma forma que hicimos
-un recorrido por los enemigos para dibujarlos en pantalla ahora habra que hacer
-una funcionalidad similar pero para que se muevan.*/
+/* Recorre los enemigos haciendo que se muevan. .*/
 Juego.moverEnemigos = function () {
   this.enemigos.forEach(function (enemigo) {
     enemigo.mover();
@@ -254,12 +241,10 @@ se ven las colisiones con los obstaculos. En este caso sera con los zombies. */
 Juego.calcularAtaques = function () {
   this.enemigos.forEach(function (enemigo) {
     if (this.intersecan(enemigo, this.jugador, this.jugador.x, this.jugador.y)) {
-      /* Si el enemigo colisiona debe empezar su ataque
-      COMPLETAR */
+      /* Si el enemigo colisiona debe empezar su ataque */
       enemigo.comenzarAtaque(this.jugador);
     } else {
-      /* Sino, debe dejar de atacar
-      COMPLETAR */
+      /* Sino, debe dejar de atacar */
       enemigo.dejarDeAtacar();
     };
   }, this);
@@ -267,17 +252,15 @@ Juego.calcularAtaques = function () {
 
 
 
-/* Aca se chequea si el jugador se peude mover a la posicion destino.
+/* Aca se chequea si el jugador se puede mover a la posicion destino.
  Es decir, que no haya obstaculos que se interpongan. De ser asi, no podra moverse */
 Juego.chequearColisiones = function (x, y) {
   var puedeMoverse = true
   this.obstaculos().forEach(function (obstaculo) {
     if (this.intersecan(obstaculo, this.jugador, x, y)) {
-
-      /*COMPLETAR, obstaculo debe chocar al jugador*/
+      // Si el jugador con el obstaculo colisionan, el obstaculo quita vidas al jugador
       obstaculo.quitarVidas();
-
-      puedeMoverse = false
+      puedeMoverse = false;
     }
   }, this)
   return puedeMoverse
@@ -304,27 +287,14 @@ Juego.dibujarFondo = function () {
   if (this.terminoJuego()) {
     Dibujante.dibujarImagen('imagenes/mensaje_gameover.png', 0, 5, this.anchoCanvas, this.altoCanvas);
     document.getElementById('reiniciar').style.visibility = 'visible';
-    Juego.enemigos = [];
-    Juego.obstaculosCarretera = [];
-    this.jugador.sprite = "empty.png";
-    Jugador.mover = function () {};
-    this.jugador.y = 550;
-    // Borra enemigos y obstaculos []
-    //jugador empyt.png
-    //jugador.mover function(){}
-    //sprite meta empty.png
-
+    Dibujante.borrarFondo();
   }
 
   // Si se gano el juego hay que mostrar el mensaje de ganoJuego de fondo
   else if (this.ganoJuego()) {
     Dibujante.dibujarImagen('imagenes/Splash.png', 190, 113, 500, 203);
     document.getElementById('reiniciar').style.visibility = 'visible';
-    Juego.enemigos = [];
-    Juego.obstaculosCarretera = [];
-    this.jugador.sprite = "empty.png";
-    Jugador.mover = function () {};
-    this.jugador.y = 550;
+    Dibujante.borrarFondo();
   } else {
     Dibujante.dibujarImagen('imagenes/mapa.png', 0, 5, this.anchoCanvas, this.altoCanvas);
   }

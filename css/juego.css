@@ -17,3 +17,67 @@ canvas {
   font-family: monospace;
   visibility: hidden;
 }
+
+/* Index */
+
+.contenedor {
+  margin: auto;
+  display: block;
+  position: relative;
+  margin-top: calc(50vh - 286px);
+}
+
+.contenedor:hover {
+  cursor: pointer;
+}
+
+img#mensaje-1 {
+  margin: auto;
+  display: block;
+}
+img#mensaje-2 {
+  margin: auto;
+  display: none;
+}
+
+.visible {
+  display: block !important;
+}
+
+.oculto{
+  display: none !important;
+}
+
+
+.texto {
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  font-family: monospace;
+}
+
+.parpadea { 
+  animation-name: parpadeo;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  -webkit-animation-name:parpadeo;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
+@-moz-keyframes parpadeo{  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+@-webkit-keyframes parpadeo {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+   100% { opacity: 1.0; }
+}
+@keyframes parpadeo {  
+  0% { opacity: 1.0; }
+   50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
